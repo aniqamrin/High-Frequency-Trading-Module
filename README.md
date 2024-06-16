@@ -1,4 +1,5 @@
-![WhatsApp Image 2024-06-16 at 17 28 38_22379280](https://github.com/aniqamrin/High-Frequency-Trading-Module/assets/106239572/22dad43b-5c04-445a-b13d-78b0a91fd7f8)# High-Frequency-Trading-Module
+# High-Frequency-Trading-Module
 
+https://cdn.discordapp.com/attachments/1193533696540672061/1251831871709646888/image.png?ex=667002c8&is=666eb148&hm=095ddfb2e0575e600e17b32d23b5e3ce490b3317a8f6c470ed02e9db39340514&
 
 High Frequency Trading Module that works on LTF 
