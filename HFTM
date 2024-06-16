@@ -1,0 +1,51 @@
+//@version=5
+strategy("BBMA OA", overlay=true)
+
+// BOLINGGER BAND
+MidBB = ta.sma(close, 20)
+TopBB = MidBB + (2 * ta.stdev(close, 20))
+LowBB = MidBB - (2 * ta.stdev(close, 20))
+
+// Linear Weighted Moving Average (LWMA)
+lwma(source, length) =>
+    sum = 0.0
+    sumw = 0.0
+    for i = 0 to length - 1
+        sum := sum + source[i] * (length - i)
+        sumw := sumw + (length - i)
+    sum / sumw
+
+wma5h = lwma(high, 5)
+wma10h = lwma(high, 10)
+wma5l = lwma(low, 5)
+wma10l = lwma(low, 10)
+
+// Entry Conditions
+buyCondition = (close > MidBB or close > TopBB) and ta.cross(close, wma5l)
+sellCondition = (close < MidBB or close < LowBB) and ta.cross(close, wma5h)
+
+// Entry Points
+longEntry = buyCondition ? low : na
+shortEntry = sellCondition ? high : na
+
+// Plotting Buy/Sell entry points on the chart
+plotshape(series=longEntry, title="Buy Entry", color=color.green, style=shape.triangleup, location=location.belowbar)
+plotshape(series=shortEntry, title="Sell Entry", color=color.red, style=shape.triangledown, location=location.abovebar)
+
+// Strategy Entry and Exit
+strategy.entry("Buy", strategy.long, when=buyCondition)
+strategy.entry("Sell", strategy.short, when=sellCondition)
+
+// Plotting Buy/Sell signals on the chart using strategy.* functions
+strategy.exit("Take Profit/Stop Loss", from_entry="Buy", loss=400, profit=350)
+strategy.exit("Take Profit/Stop Loss", from_entry="Sell", loss=400, profit=350)
+
+// Plotting Bollinger Bands and LWMA
+plot(MidBB, color=color.blue, linewidth=1, title="Mid BB")
+plot(TopBB, color=color.green, linewidth=1, title="Top BB")
+plot(LowBB, color=color.red, linewidth=1, title="Low BB")
+
+plot(wma5h, color=color.navy, linewidth=1, title="LWMA 5H")
+plot(wma10h, color=color.olive, linewidth=1, title="LWMA 10H")
+plot(wma5l, color=color.maroon, linewidth=1, title="LWMA 5L")
+plot(wma10l, color=color.purple, linewidth=1, title="LWMA 10L")
